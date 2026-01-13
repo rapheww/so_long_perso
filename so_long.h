@@ -6,7 +6,7 @@
 /*   By: rchaumei <rchaumei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 14:21:22 by rchaumei          #+#    #+#             */
-/*   Updated: 2026/01/12 18:21:58 by rchaumei         ###   ########.fr       */
+/*   Updated: 2026/01/13 18:03:56 by rchaumei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,16 @@ typedef struct s_map
 	int				count_c;
 	int				count_e;
 }					t_map;
+
+typedef struct s_monster_mv
+{
+	char axe;
+	int x;
+	int y;
+	int direction;
+	struct s_monster_mv *next;
+	
+}					t_monster_mv;
 
 typedef struct s_perso
 {
@@ -109,6 +119,7 @@ typedef struct s_data
 	t_collectible	collectible;
 	t_exit			exit;
 	t_monster		monster;
+	t_monster_mv *monster_mv;
 	int				x;
 	int				y;
 	int				size_x;
@@ -116,6 +127,8 @@ typedef struct s_data
 	int				count_c;
 	int				num_c;
 	int				count_mvt;
+	int	mv_time;
+	int check_monster;
 }					t_data;
 
 // check map
@@ -148,6 +161,11 @@ int					check_d(t_data *win, int x, int y);
 
 int					move_image(int keycode, t_data *win);
 void				print_moves(t_data *win);
+
+//monsters
+
+int monster_moves(t_data *win);
+t_monster_mv *define_monster(t_data *win);
 
 int animate_coin(t_data *win);
 #endif

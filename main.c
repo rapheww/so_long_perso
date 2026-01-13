@@ -6,7 +6,7 @@
 /*   By: rchaumei <rchaumei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 14:21:01 by rchaumei          #+#    #+#             */
-/*   Updated: 2026/01/12 18:29:20 by rchaumei         ###   ########.fr       */
+/*   Updated: 2026/01/13 18:04:54 by rchaumei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,38 @@ void	make_image(t_data *win)
 	make_image3(win);
 }
 
+int animation_loop(t_data *win)
+{
+	animate_coin(win);
+	if (win->check_monster == 1)
+		monster_moves(win);
+	return (0);
+}
+
+int check_monster(t_data *win)
+{
+	int y;
+	int x;
+
+	y = 0;
+	while(win->map[y])
+	{
+		x = 0;
+		while(win->map[y][x])
+		{
+			if (win->map[y][x] == 'M')
+			{
+				win->check_monster = 1;
+				return (1);
+			}
+			x++;
+		}
+		y++;
+	}
+	win->check_monster = 0;
+	return(0);
+}
+
 int	main(int ac, char **av)
 {
 	t_data	win;
@@ -101,6 +133,7 @@ int	main(int ac, char **av)
 		if (define_map(&win, av, &win.map) == 1)
 			return (ft_printf("Error \n"), 0);
 		win.count_c = 0;
+		win.mv_time = 0;
 		win.collectible.frame = 0;
 		win.count_mvt = 0;
 		win.collectible.time = 0;
@@ -113,8 +146,14 @@ int	main(int ac, char **av)
 		if (!win.window)
 			return (free(win.mlx), 1);
 		make_image(&win);
+		if (check_monster(&win) == 1)
+		{
+			win.monster_mv = define_monster(&win);
+			if (!win.monster_mv)
+				return(0);
+		}
 		set_bg(&win);
-		mlx_loop_hook(win.mlx, animate_coin, &win);
+		mlx_loop_hook(win.mlx, animation_loop, &win);
 		mlx_hook(win.window, 17, 0, close_cross, &win);
 		mlx_hook(win.window, 2, 1L << 0, move_image, &win);
 		mlx_loop(win.mlx);

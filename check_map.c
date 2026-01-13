@@ -6,7 +6,7 @@
 /*   By: rchaumei <rchaumei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:21:35 by rchaumei          #+#    #+#             */
-/*   Updated: 2026/01/12 16:45:17 by rchaumei         ###   ########.fr       */
+/*   Updated: 2026/01/13 18:16:32 by rchaumei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,28 @@ int	map_size(t_map *map, int *fd, char *line, char **av)
 	return (0);
 }
 
+int monster_place(char **map)
+{
+	int y;
+	int x;
+
+	y = 0;
+	while(map[y])
+	{
+		x = 0;
+		while(map[y][x] && map[y][x] != 'P')
+		{
+			x++;
+		}
+		if (map[y][x] == 'P')
+			break;
+		y++;
+	}
+	if (map[y - 1][x] == 'M' || map[y + 1][x] == 'M' || map[y][x + 1] == 'M' || map[y][x - 1] == 'M')
+		return(1);
+	return(0);
+}
+
 int	define_map(t_data *win, char **av, char ***tab)
 {
 	char	*line;
@@ -135,7 +157,7 @@ int	define_map(t_data *win, char **av, char ***tab)
 	if (define_map_size(win, fd) == 1)
 		return (1);
 	close(fd);
-	if (make_map(map, av, tab) == 1)
+	if (make_map(map, av, tab) == 1 || monster_place(*tab) == 1)
 		return (1);
 	return (0);
 }
