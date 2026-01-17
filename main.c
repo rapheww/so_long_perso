@@ -6,7 +6,7 @@
 /*   By: rchaumei <rchaumei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 14:21:01 by rchaumei          #+#    #+#             */
-/*   Updated: 2026/01/13 18:04:54 by rchaumei         ###   ########.fr       */
+/*   Updated: 2026/01/17 17:10:03 by rchaumei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	define_path(t_data *win)
 	win->exit.path = "./images/portal.xpm";
 	win->monster.path = "./images/monster.xpm";
 }
-void make_image3(t_data *win)
+void	make_image3(t_data *win)
 {
 	win->collectible.coin1 = mlx_xpm_file_to_image(win->mlx,
 			win->collectible.path1, &win->collectible.img_width,
@@ -91,7 +91,7 @@ void	make_image(t_data *win)
 	make_image3(win);
 }
 
-int animation_loop(t_data *win)
+int	animation_loop(t_data *win)
 {
 	animate_coin(win);
 	if (win->check_monster == 1)
@@ -99,16 +99,16 @@ int animation_loop(t_data *win)
 	return (0);
 }
 
-int check_monster(t_data *win)
+int	check_monster(t_data *win)
 {
-	int y;
-	int x;
+	int	y;
+	int	x;
 
 	y = 0;
-	while(win->map[y])
+	while (win->map[y])
 	{
 		x = 0;
-		while(win->map[y][x])
+		while (win->map[y][x])
 		{
 			if (win->map[y][x] == 'M')
 			{
@@ -120,13 +120,14 @@ int check_monster(t_data *win)
 		y++;
 	}
 	win->check_monster = 0;
-	return(0);
+	return (0);
 }
 
 int	main(int ac, char **av)
 {
 	t_data	win;
-
+	
+	
 	win.map = NULL;
 	if (ac > 1)
 	{
@@ -150,9 +151,13 @@ int	main(int ac, char **av)
 		{
 			win.monster_mv = define_monster(&win);
 			if (!win.monster_mv)
-				return(0);
+				return (0);
 		}
 		set_bg(&win);
+		gettimeofday(&win.coin_start, NULL);
+		gettimeofday(&win.monster_start, NULL);
+		win.change_image = 1;
+		win.mv_time = 1;
 		mlx_loop_hook(win.mlx, animation_loop, &win);
 		mlx_hook(win.window, 17, 0, close_cross, &win);
 		mlx_hook(win.window, 2, 1L << 0, move_image, &win);

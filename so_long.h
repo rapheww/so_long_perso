@@ -6,7 +6,7 @@
 /*   By: rchaumei <rchaumei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 14:21:22 by rchaumei          #+#    #+#             */
-/*   Updated: 2026/01/13 18:03:56 by rchaumei         ###   ########.fr       */
+/*   Updated: 2026/01/17 17:07:23 by rchaumei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,11 @@ typedef struct s_data
 	int				count_mvt;
 	int	mv_time;
 	int check_monster;
+	int change_image;
+	struct timeval coin_start;
+	struct timeval coin_now;
+	struct timeval monster_start;
+	struct timeval monster_now;
 }					t_data;
 
 // check map

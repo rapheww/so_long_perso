@@ -6,7 +6,7 @@
 /*   By: rchaumei <rchaumei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 15:15:48 by rchaumei          #+#    #+#             */
-/*   Updated: 2026/01/13 18:27:45 by rchaumei         ###   ########.fr       */
+/*   Updated: 2026/01/17 17:10:30 by rchaumei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,10 @@ int monster_moves(t_data *win)
     int x;
     int y;
     t_monster_mv *tmp;
-    int count;
+    int dif_time;
     
-    count = win->count_c + 1;
-    if (win->mv_time / (count * 15000))
+    gettimeofday(&win->monster_now, NULL);
+    if (win->mv_time == 1)
     {
         tmp = win->monster_mv;
         while(win->monster_mv)
@@ -176,10 +176,15 @@ int monster_moves(t_data *win)
             win->map[y][x] = 'M';
             mlx_put_image_to_window(win->mlx, win->window, win->monster.img, x * 64, y * 64);
             win->monster_mv = win->monster_mv->next;
-            win->mv_time = 0;
         }
+        win->mv_time = 0;
         win->monster_mv = tmp;
     }
-    win->mv_time++;
+    dif_time = (win->monster_now.tv_sec - win->monster_start.tv_sec)*1000 + (win->monster_now.tv_usec - win->monster_start.tv_usec)/1000;
+    if (dif_time >= 300)
+    {
+        win->mv_time = 1;
+        win->monster_start = win->monster_now;
+    }
     return (0);
 }

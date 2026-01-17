@@ -6,11 +6,12 @@
 /*   By: rchaumei <rchaumei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:21:35 by rchaumei          #+#    #+#             */
-/*   Updated: 2026/01/13 18:16:32 by rchaumei         ###   ########.fr       */
+/*   Updated: 2026/01/15 15:07:44 by rchaumei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+#include <stdio.h>
 
 int	check_line_content(t_map *map, char *line)
 {
@@ -76,7 +77,7 @@ int	check_map_size(int i, int y, char **line, t_map *map)
 		return (1);
 	if (map->num_line - 1 == i)
 	{
-		if (ft_strlen(*line) != map->len_line)
+		if (ft_strlen(*line) - 1 != map->len_line)
 			return (1);
 	}
 	else if (ft_strlen(*line) - 1 != map->len_line)

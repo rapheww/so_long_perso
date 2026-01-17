@@ -6,7 +6,7 @@
 /*   By: rchaumei <rchaumei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 15:25:52 by rchaumei          #+#    #+#             */
-/*   Updated: 2026/01/12 16:46:08 by rchaumei         ###   ########.fr       */
+/*   Updated: 2026/01/17 16:38:54 by rchaumei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,11 @@ int	move1(t_data *win, int x, int y, int keycode)
 		if (check_w(win, x, y) == 1)
 			return (1);
 		win->map[y][x] = '0';
+		mlx_put_image_to_window(win->mlx, win->window, win->bg.flat, x * 64, y
+			* 64);
 		win->map[y - 1][x] = 'P';
+		mlx_put_image_to_window(win->mlx, win->window, win->perso.img, x * 64,
+			(y - 1) * 64);
 		win->count_mvt++;
 	}
 	else if (keycode == 115)
@@ -38,7 +42,11 @@ int	move1(t_data *win, int x, int y, int keycode)
 		if (check_s(win, x, y) == 1)
 			return (1);
 		win->map[y][x] = '0';
+		mlx_put_image_to_window(win->mlx, win->window, win->bg.flat, x * 64, y
+			* 64);
 		win->map[y + 1][x] = 'P';
+		mlx_put_image_to_window(win->mlx, win->window, win->perso.img, x * 64,
+			(y + 1) * 64);
 		win->count_mvt++;
 	}
 	return (0);
@@ -51,7 +59,11 @@ int	move2(t_data *win, int x, int y, int keycode)
 		if (check_a(win, x, y) == 1)
 			return (1);
 		win->map[y][x] = '0';
+		mlx_put_image_to_window(win->mlx, win->window, win->bg.flat, x * 64, y
+			* 64);
 		win->map[y][x - 1] = 'P';
+		mlx_put_image_to_window(win->mlx, win->window, win->perso.img, (x - 1)
+			* 64, y * 64);
 		win->count_mvt++;
 	}
 	else if (keycode == 100)
@@ -59,7 +71,11 @@ int	move2(t_data *win, int x, int y, int keycode)
 		if (check_d(win, x, y) == 1)
 			return (1);
 		win->map[y][x] = '0';
+		mlx_put_image_to_window(win->mlx, win->window, win->bg.flat, x * 64, y
+			* 64);
 		win->map[y][x + 1] = 'P';
+		mlx_put_image_to_window(win->mlx, win->window, win->perso.img, (x + 1)
+			* 64, y * 64);
 		win->count_mvt++;
 	}
 	return (0);
@@ -82,8 +98,6 @@ int	move_image(int keycode, t_data *win)
 		free(win->mlx);
 		exit(0);
 	}
-	mlx_clear_window(win->mlx, win->window);
-	set_bg(win);
 	print_moves(win);
 	return (0);
 }
